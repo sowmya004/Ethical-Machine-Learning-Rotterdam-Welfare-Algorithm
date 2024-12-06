@@ -42,6 +42,7 @@ def visualize_predicates(df, predicates, checked_col, labels=None):
         checked_count_complement = subset_complement[subset_complement[checked_col] == True].shape[0]
 
         fairness_stats = calculate_fairness_stats(total_count_complement, checked_count_complement, total_count, checked_count)
+        print(f"Stats for: {labels[i]}")
         for stat in fairness_stats:
             print(f"{stat}: {fairness_stats[stat]}")
         
@@ -78,11 +79,62 @@ def is_age_between(min_age, max_age):
 def is_woman():
     return lambda df: df['persoon_geslacht_vrouw'] == True
 
+def is_not_woman():
+    return lambda df: df['persoon_geslacht_vrouw'] == False
+
 def has_child():
     return lambda df: df['relatie_kind_heeft_kinderen'] == True
 
+def has_no_child():
+    return lambda df: df['relatie_kind_heeft_kinderen'] == False
+
+def has_no_language_skills():
+    return lambda df: df['persoonlijke_eigenschappen_taaleis_voldaan'] == False
+
+def has_language_skills():
+    return lambda df: df['persoonlijke_eigenschappen_taaleis_voldaan'] == True
+
+def has_language_skills_int(value_to_check):
+    return lambda df: df['persoonlijke_eigenschappen_taaleis_voldaan'] == value_to_check
+
+def language_spoken(value):
+    return lambda df: df['persoonlijke_eigenschappen_spreektaal'] == value
+
+def dutch_not_native_language():
+    return lambda df: df['persoonlijke_eigenschappen_spreektaal_anders'] == True
+
+def language_req_exemption():
+    return lambda df: df['afspraak_afgelopen_jaar_ontheffing_taaleis'] == True
+
 def lives_in(district):
     return lambda df: df[f'adres_recentste_wijk_{district}'] == True
+
+def has_roommate():
+    return lambda df: df['relatie_overig_kostendeler'] == True
+
+def has_x_roommates(min_roommates, max_roommates):
+    return lambda df: (df['relatie_overig_actueel_vorm__kostendeler'] >= min_roommates) & (df['relatie_overig_actueel_vorm__kostendeler'] < max_roommates)
+
+def financial_problems():
+    return lambda df: df['belemmering_financiele_problemen'] == True
+
+def financial_problem_days(days_min, days_max):
+    return lambda df: (df['belemmering_dagen_financiele_problemen'] >= days_min) & (df['belemmering_dagen_financiele_problemen'] < days_max)
+
+def medical_reasons():
+    return lambda df: df['ontheffing_reden_hist_medische_gronden'] == True
+
+def addiction_problems():
+    return lambda df: df['belemmering_hist_verslavingsproblematiek'] == True
+
+def is_single():
+    return lambda df: df['relatie_partner_huidige_partner___partner__gehuwd_'] == True
+
+def mental_problems():
+    return lambda df: df['belemmering_hist_psychische_problemen'] == True
+
+def appearance():
+    return lambda df: df['persoonlijke_eigenschappen_uiterlijke_verzorging_opm'] == True
 
 # Logical combinations of predicates
 def combine_and(*predicates):
@@ -93,17 +145,22 @@ def combine_or(*predicates):
 
 # Example usage
 predicates = [
-    is_age_between(30, 40),
-    is_woman(),
-    has_child(),
-    combine_and(is_age_between(30, 40), is_woman(), has_child())
+    # combine_and(has_roommate(), financial_problems(), has_no_language_skills())
+    # combine_and(financial_problems(), has_x_roommates(0, 1)),
+    # combine_and(financial_problems(), has_x_roommates(1, 2)),
+    # combine_and(financial_problems(), has_x_roommates(2, 3)),
+    # combine_and(financial_problems(), has_x_roommates(3, 20)),
+    #combine_and(is_age_between(20, 35), is_woman(), has_child())
+    #combine_and(language_spoken(0), financial_problems())
+    combine_and(has_child(), has_no_language_skills())
 ]
 
 labels = [
-    'Age 30-40',
-    'Women',
-    'Has Child',
-    'Women Age 30-40 with Child'
+    "Dutch"
+
+    # "1 roommate",
+    # "2 roommates",
+    # "3+ roommates"
 ]
 
 # Visualize predicates
