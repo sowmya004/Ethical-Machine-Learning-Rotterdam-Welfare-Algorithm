@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Load dataset
-df = pd.read_csv('data/investigation_train_large_checked.csv')
+df = pd.read_csv('../data/investigation_train_large_checked.csv')
 
 def calculate_fairness_stats(privileged_total, privileged_checked, unprivileged_total, unprivileged_checked):
     unprivileged_unchecked = unprivileged_total - unprivileged_checked
