@@ -3,7 +3,7 @@ import numpy as np
 import math
 
 # Load dataset
-df = pd.read_csv('data/investigation_train_large_checked_adjusted_2.csv')
+df = pd.read_csv('../data/investigation_train_large_checked.csv')
 
 # Helper function to evaluate predicates
 def evaluate_predicate(df, predicate):
@@ -95,7 +95,7 @@ def adjust_dataset(df, predicate, target_di, checked_col):
     return adjusted_df
 
 # Define predicates
-predicates = combine_and(is_not_woman(), is_age_between(20, 35), has_child())
+predicates = combine_and(has_roommate(), financial_problems(), has_no_language_skills())
 
 # Target DI for age 20-30
 target_di = 0.8
@@ -104,6 +104,6 @@ target_di = 0.8
 adjusted_df = adjust_dataset(df, predicates, target_di, 'checked')
 
 # Save the adjusted dataset
-adjusted_df.to_csv('data/investigation_train_large_checked_adjusted_3.csv', index=False)
+adjusted_df.to_csv('../data/investigation_train_large_checked_adjusted.csv', index=False)
 
-print("Adjusted dataset saved to 'data/investigation_train_large_checked_adjusted_3.csv'.")
+print("Adjusted dataset saved to 'data/investigation_train_large_checked_adjusted.csv'.")
