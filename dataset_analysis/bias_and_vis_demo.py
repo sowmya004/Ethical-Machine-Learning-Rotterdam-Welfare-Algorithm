@@ -98,13 +98,15 @@ def combine_and(*predicates):
 
 # Example usage
 predicates = [
-    is_age_between(20, 30),
+    is_age_between(18, 30),
+    is_age_between(66, 120),
     combine_and(is_not_woman(), is_age_between(20, 35), has_child()),
     combine_and(has_roommate(), financial_problems(), has_no_language_skills())
 ]
 
 labels = [
-    "Age Between 20-30",
+    "Age Between 18-30",
+    "Older than 65",
     "Not Woman, \n Younger than 35, \n Has Child",
     "Has Roommate, \n Financial Problems, \n Lang. Requirement not Met"
 ]
