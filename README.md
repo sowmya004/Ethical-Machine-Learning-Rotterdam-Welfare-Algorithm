@@ -47,7 +47,7 @@ Here's an overview of the project structure:
   Holds reports and articles related to the problem statement.
 
 - **📌 `external_models/`**  
-  - Contains Jupyter notebooks for **neighborhood stability tests** and **hill-climbing tests**.  
+  - Contains Jupyter notebooks for **neighborhood stability tests** and **hill-climbing tests** and all previous tests to test for other teams models.  
   - The subfolder `received_folder/` contains models received from another team.
 
 - **🧪 `model_1/`**  
